@@ -1,7 +1,5 @@
-const store = {
-  items: [],
-  hideCheckedItems: false
-};
+import store from './store.js';
+import item from './item.js';
 
 const generateItemElement = function (item) {
   let itemTitle = `<span class="shopping-item shopping-item__checked">${item.name}</span>`;
@@ -44,8 +42,14 @@ const render = function () {
   $('.js-shopping-list').html(shoppingListItemsString);
 };
 
-const addItemToShoppingList = function (itemName) {
-  store.items.push({ id: cuid(), name: itemName, checked: false });
+const addItemToShoppingList = function (name) {try{
+item.validateName(name)
+store.items.push(item.create(name))
+render()
+} catch(err) {
+  console.log(`${err.message}`)
+}
+
 };
 
 const handleNewItemSubmit = function () {
@@ -58,15 +62,11 @@ const handleNewItemSubmit = function () {
   });
 };
 
-const toggleCheckedForListItem = function (id) {
-  const foundItem = store.items.find(item => item.id === id);
-  foundItem.checked = !foundItem.checked;
-};
 
 const handleItemCheckClicked = function () {
   $('.js-shopping-list').on('click', '.js-item-toggle', event => {
     const id = getItemIdFromElement(event.currentTarget);
-    toggleCheckedForListItem(id);
+    store.findAndToggleChecked(id);
     render();
   });
 };
