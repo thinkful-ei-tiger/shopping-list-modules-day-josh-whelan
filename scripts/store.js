@@ -4,20 +4,19 @@ import item from './item.js';
 const items = []
 const hideCheckedItems = false
 
-
-function findById(input){
-    let retu = items.find(function(input){
-        return items.id === input})
-        console.log('retu is ' + retu)
-        return retu
-}
-
 function addItem (itemName){
     try{ item.validateName(itemName)  
         items.push(item.create(itemName))
     } catch(err){
         console.log(`${err.message}`)
     }
+}
+
+function findById(input){
+    items.find(function(input){
+        return items.id === input})
+        console.log('retu is ' + retu)
+        return retu
 }
 
 function findAndToggleChecked(idToCheck){
